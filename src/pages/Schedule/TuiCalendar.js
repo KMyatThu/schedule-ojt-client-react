@@ -34,7 +34,7 @@ class TuiCalendar extends Component {
   // Update State
   onBeforeCreateSchedule(scheduleData) {
     const newSchedule = {
-      // id: String(Math.random()),
+      id: String(Math.random()),
       calendarId: scheduleData.calendarId,
       title: scheduleData.title,
       isAllDay: scheduleData.isAllDay,
@@ -275,7 +275,7 @@ class TuiCalendar extends Component {
           calendars={calendars}
           useCreationPopup={true}
           useDetailPopup={true}
-          disableClick={true}
+          // disableClick={true}
           onBeforeCreateSchedule={this.onBeforeCreateSchedule}
           onBeforeUpdateSchedule={this.onBeforeUpdateSchedule}
           onBeforeDeleteSchedule={this.onBeforeDeleteSchedule}
