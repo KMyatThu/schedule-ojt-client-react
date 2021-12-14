@@ -275,7 +275,7 @@ class TuiCalendar extends Component {
           calendars={calendars}
           useCreationPopup={true}
           useDetailPopup={true}
-          // disableClick={true}
+          disableClick={true}
           onBeforeCreateSchedule={this.onBeforeCreateSchedule}
           onBeforeUpdateSchedule={this.onBeforeUpdateSchedule}
           onBeforeDeleteSchedule={this.onBeforeDeleteSchedule}
