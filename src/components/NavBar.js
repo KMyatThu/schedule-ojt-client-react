@@ -14,7 +14,7 @@ const NavBar = ({
 
   // const isActiveLink = url => url === pathName;
 
-  const handleBrand = () => history.push("/");
+  const handleBrand = () => history.push("/scheduleTypes");
 
   return (
     <Navbar bg="light" expand="lg">

@@ -1,7 +1,7 @@
-const Button = ({ onClick, text, decorate }) => {
+const Button = ({ onClick, text, decorate, styles }) => {
   return (
     <button
-    style={{ marginRight: '4px' }} 
+    style={styles}
     className={decorate}
     data-action='move-prev'
     onClick={onClick}>{text}</button>

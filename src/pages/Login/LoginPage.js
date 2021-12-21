@@ -52,7 +52,7 @@ class Login extends Component {
           }
         });
       })
-      .then(() => this.props.history.push("/"))
+      .then(() => this.props.history.push("/scheduleTypes"))
       .catch(error => {
         if (error.response) {
           console.error(error.response.data);

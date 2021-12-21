@@ -6,10 +6,9 @@ import TUICalendar from "@toast-ui/react-calendar";
 import "tui-calendar/dist/tui-calendar.css";
 import "tui-date-picker/dist/tui-date-picker.css";
 import "tui-time-picker/dist/tui-time-picker.css";
-import Button from "../../atoms/Button";
 import CalendarNavBar from "../../components/CalendarNavBar";
 
-class TuiCalendar extends Component {
+class TuiCalendarTypeTwo extends Component {
   constructor(props) {
     super(props);
     this._isMounted = false;
@@ -74,9 +73,19 @@ class TuiCalendar extends Component {
     };
 
     this.calendarRef.current.calendarInst.createSchedules([newSchedule]);
-    this.setState({
-      schedules: [...this.state.schedules, newSchedule]
-    })
+    delete newSchedule.id;
+    axios.post("schedules/createSingleSchedule", { schedule: newSchedule })
+      .then(() => this.props.history.push("/scheduleTwo"))
+      .catch(error => {
+        if (error.response) {
+          console.error(error.response.data);
+          if (error.response.data.errors) {
+            this.setState({
+              errors: error.response.data.errors
+            });
+          }
+        }
+      });
   }
 
   // set up before updated schedule
@@ -91,13 +100,18 @@ class TuiCalendar extends Component {
       changes
     );
 
-    const { schedules } = this.state;
-    const updatedSchedules = schedules.map((schedule) => {
-      return schedule.id === updatedSchedule.id ? { ...schedule, ...changes } : schedule
-    })
-    this.setState({
-      schedules: updatedSchedules
-    })
+    axios.post("schedules/updateSingleSchedule", { schedule: updatedSchedule })
+      .then(() => this.props.history.push("/scheduleTwo"))
+      .catch(error => {
+        if (error.response) {
+          console.error(error.response.data);
+          if (error.response.data.errors) {
+            this.setState({
+              errors: error.response.data.errors
+            });
+          }
+        }
+      });
   }
 
   // Before delete Set up
@@ -106,11 +120,18 @@ class TuiCalendar extends Component {
   onBeforeDeleteSchedule(scheduleData) {
     const { id, calendarId } = scheduleData.schedule;
     this.calendarRef.current.calendarInst.deleteSchedule(id, calendarId);
-    const { schedules } = this.state;
-    const deletedSchedules = schedules.filter(schedule => schedule.id !== id)
-    this.setState({
-      schedules: deletedSchedules
-    })
+    axios.post("schedules/deleteSingleSchedule", { id: id })
+      .then(() => this.props.history.push("/scheduleTwo"))
+      .catch(error => {
+        if (error.response) {
+          console.error(error.response.data);
+          if (error.response.data.errors) {
+            this.setState({
+              errors: error.response.data.errors
+            });
+          }
+        }
+      });
   }
 
   // Prepare for date format
@@ -241,13 +262,13 @@ class TuiCalendar extends Component {
       const date = new Date(time);
       const h = date.getHours();
       const m = date.getMinutes();
-  
+
       return `${h}:${m}`;
     }
-  
+
     function _getTimeTemplate(schedule, isAllDay) {
       var html = [];
-  
+
       if (!isAllDay) {
         html.push("<strong>" + _getFormattedTime(schedule.start) + "</strong> ");
       }
@@ -266,7 +287,7 @@ class TuiCalendar extends Component {
         }
         html.push(" " + schedule.title);
       }
-  
+
       return html.join("");
     }
 
@@ -279,7 +300,7 @@ class TuiCalendar extends Component {
       <div>
         {/* Display description */}
         <span className="description">
-          All schedules save when click 'Save Schedules' Button
+          Every single action is connected with database.
         </span>
 
         {/* Calendar NavBar Display */}
@@ -307,16 +328,9 @@ class TuiCalendar extends Component {
           onBeforeUpdateSchedule={this.onBeforeUpdateSchedule}
           onBeforeDeleteSchedule={this.onBeforeDeleteSchedule}
         />
-
-        {/* Save Schedules Button */}
-        <Button
-          decorate={"mt-4 btn btn-primary float-right"}
-          onClick={this.handleSaveSchedule}
-          text="Save Schedules"
-        />
       </div>
     );
   }
 }
 
-export default TuiCalendar;
+export default TuiCalendarTypeTwo;
