@@ -4,6 +4,9 @@ import { Provider } from "react-redux";
 import store from "./store";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/style/index.css';
+import "tui-calendar/dist/tui-calendar.css";
+import "tui-date-picker/dist/tui-date-picker.css";
+import "tui-time-picker/dist/tui-time-picker.css";
 import App from "./App";
 import reportWebVitals from './reportWebVitals';
 

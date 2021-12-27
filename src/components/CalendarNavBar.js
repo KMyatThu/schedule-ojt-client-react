@@ -3,7 +3,7 @@ import Button from '../atoms/Button';
 
 class CalendarNavBar extends Component {
   render() {
-    const { renderText, backClick, nextClick, todayClick, description } = this.props;
+    const { renderText, backClick, nextClick, todayClick } = this.props;
     return (
       <div className="p-3">
         {/* Previous days button */}

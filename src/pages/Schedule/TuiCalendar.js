@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import axios from "../../axios";
 import moment from "moment";
 import TUICalendar from "@toast-ui/react-calendar";
-
-import "tui-calendar/dist/tui-calendar.css";
-import "tui-date-picker/dist/tui-date-picker.css";
-import "tui-time-picker/dist/tui-time-picker.css";
 import Button from "../../atoms/Button";
 import CalendarNavBar from "../../components/CalendarNavBar";
 
@@ -19,7 +15,8 @@ class TuiCalendar extends Component {
       schedules: [],
       calendars: [],
       templates: [],
-      renderRange: ""
+      renderRange: "",
+      initialDisabled: false
     };
 
     this.onBeforeCreateSchedule = this.onBeforeCreateSchedule.bind(this);
@@ -160,6 +157,7 @@ class TuiCalendar extends Component {
     if (window.confirm("Are you sure want to save schedules!")) {
       const data = this.state.schedules;
       axios.post("schedules/create", data)
+        .then(() => this.props.history.push("/calendar"))
         .then(alert("Successfull saved schedules"))
         .catch(error => {
           if (error.response) {
@@ -181,7 +179,8 @@ class TuiCalendar extends Component {
     axios.get("schedules").then(res => {
       if (this._isMounted) {
         this.setState({
-          schedules: res.data
+          schedules: res.data,
+          initialDisabled: res.data.length === 0 ? true : false
         })
       }
     }).catch(error => {
@@ -235,19 +234,19 @@ class TuiCalendar extends Component {
   }
 
   render() {
-    const { schedules, calendars, renderRange } = this.state;
+    const { schedules, calendars, renderRange, initialDisabled } = this.state;
 
     function _getFormattedTime(time) {
       const date = new Date(time);
       const h = date.getHours();
       const m = date.getMinutes();
-  
+
       return `${h}:${m}`;
     }
-  
+
     function _getTimeTemplate(schedule, isAllDay) {
       var html = [];
-  
+
       if (!isAllDay) {
         html.push("<strong>" + _getFormattedTime(schedule.start) + "</strong> ");
       }
@@ -266,7 +265,7 @@ class TuiCalendar extends Component {
         }
         html.push(" " + schedule.title);
       }
-  
+
       return html.join("");
     }
 
@@ -313,6 +312,7 @@ class TuiCalendar extends Component {
           decorate={"mt-4 btn btn-primary float-right"}
           onClick={this.handleSaveSchedule}
           text="Save Schedules"
+          disabled={schedules.length === 0 && initialDisabled && "disabled"}
         />
       </div>
     );

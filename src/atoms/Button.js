@@ -1,10 +1,11 @@
-const Button = ({ onClick, text, decorate, styles }) => {
+const Button = ({ onClick, text, decorate, styles, disabled }) => {
   return (
     <button
     style={styles}
     className={decorate}
     data-action='move-prev'
-    onClick={onClick}>{text}</button>
+    onClick={onClick}
+    disabled={disabled}>{text}</button>
   )
 }
 

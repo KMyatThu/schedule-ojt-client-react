@@ -9,13 +9,13 @@ class SchedulesTypes extends Component {
           to="/calendar"
           className="btn btn-primary text-uppercase header-btn mr-4"
         >
-          Schedule Type 1
+          Bulk Save
         </Link>
         <Link
           to="/scheduleTwo"
           className="btn btn-primary text-uppercase header-btn mr-4"
         >
-          Schedule Type 2
+          Single Save
         </Link>
       </div>
     )
